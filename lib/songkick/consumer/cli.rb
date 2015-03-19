@@ -42,6 +42,11 @@ module Songkick::Consumer
         require lib
       end
 
+      if options.consumers.empty?
+        puts "No consumers provided, exiting..."
+        exit 1
+      end
+
       consumers = options.consumers.map do |class_name|
         Object.const_get(class_name)
       end

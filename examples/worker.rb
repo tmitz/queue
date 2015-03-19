@@ -7,6 +7,7 @@ Songkick::Consumer.configure do |config|
 end
 
 class TweetConsumer
+  # This should be defined be calling consumer_from_queue (see README for example)
   def self.queue_name
     'tweets-queue'
   end

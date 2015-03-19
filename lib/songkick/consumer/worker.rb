@@ -6,6 +6,11 @@ module Songkick::Consumer
 
     def initialize(consumer_classes = [])
       @consumer_classes = Array(consumer_classes)
+
+      if @consumer_classes.empty?
+        fail ArgumentError, 'no consumer classes given to Worker'
+      end
+
       @subscribers = []
     end
 
