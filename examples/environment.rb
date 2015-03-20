@@ -7,12 +7,18 @@ SongkickQueue.configure do |config|
 end
 
 class TweetConsumer
-  # This should be defined be calling consumer_from_queue (see README for example)
-  def self.queue_name
-    'tweets-queue'
-  end
+  include SongkickQueue::Consumer
+
+  consume_from_queue 'notifications-service.tweets'
 
   def process(payload)
     puts "TweetConsumer#process(#{payload})"
+
+    3.times do
+      sleep 1
+      puts "Processing..."
+    end
+
+    puts "Done processing!"
   end
 end
