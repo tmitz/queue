@@ -1,4 +1,4 @@
-# Songkick::Consumer
+# SongkickQueue
 
 A gem for processing tasks asynchronously, powered by RabbitMQ.
 
@@ -7,7 +7,7 @@ A gem for processing tasks asynchronously, powered by RabbitMQ.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'songkick-consumer'
+gem 'songkick_queue'
 ```
 
 And then execute:
@@ -16,14 +16,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install songkick-consumer
+    $ gem install songkick_queue
 
 ## Usage
 
 ### Setup
 
 ```ruby
-Songkick::Consumer.configure do |config|
+SongkickQueue.configure do |config|
   config.amqp = 'amqp://localhost:5672'
   config.logger = Logger.new(STDOUT)
 end
@@ -33,7 +33,7 @@ end
 
 ```ruby
 class TweetConsumer
-  include Songkick::Consumer
+  include SongkickQueue::Consumer
 
   consume_from_queue 'notifications-service.tweets'
 
@@ -69,13 +69,13 @@ Or make your own:
 #!/usr/bin/env ruby
 
 require 'lib/environment'
-require 'songkick/consumer'
+require 'songkick_queue'
 
-Songkick::Consumer::CLI.new(ARGV).run
+SongkickQueue::CLI.new(ARGV).run
 ```
 
 ### Publishing messages
 
 ```ruby
-Songkick::Consumer.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
+SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
 ```

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/songkick_queue'
+
+SongkickQueue::CLI.new(ARGV).run

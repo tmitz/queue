@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'songkick/consumer/version'
+require 'songkick_queue/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "songkick-consumer"
-  spec.version       = Songkick::Consumer::VERSION
-  spec.authors       = ["Paul Springett"]
-  spec.email         = ["paul.springett@songkick.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.name          = "songkick_queue"
+  spec.version       = SongkickQueue::VERSION
+  spec.authors       = ["Dan Lucraft", "Paul Springett"]
+  spec.email         = ["dan.lucraft@songkick.com", "paul.springett@songkick.com"]
+  spec.summary       = %q{A gem for processing tasks asynchronously, powered by RabbitMQ.}
+  spec.description   = %q{A gem for processing tasks asynchronously, powered by RabbitMQ.}
   spec.homepage      = ""
-  spec.license       = "N/A"
+  spec.license       = ""
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

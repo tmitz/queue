@@ -1,6 +1,6 @@
 require 'thread'
 
-module Songkick::Consumer
+module SongkickQueue
   class Worker
     attr_reader :consumer_classes
 
@@ -85,7 +85,7 @@ module Songkick::Consumer
     end
 
     def config
-      Songkick::Consumer.configuration
+      SongkickQueue.configuration
     end
   end
 end

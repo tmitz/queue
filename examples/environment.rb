@@ -1,7 +1,7 @@
-require_relative '../lib/songkick/consumer'
+require_relative '../lib/songkick_queue'
 require 'logger'
 
-Songkick::Consumer.configure do |config|
+SongkickQueue.configure do |config|
   config.amqp = 'amqp://localhost:5672'
   config.logger = Logger.new(STDOUT)
 end

@@ -1,7 +1,7 @@
 require 'optparse'
 require 'ostruct'
 
-module Songkick::Consumer
+module SongkickQueue
   class CLI
     attr_reader :options
 

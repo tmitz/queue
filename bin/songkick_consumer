@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative '../lib/songkick/consumer'
-
-cli = Songkick::Consumer::CLI.new(ARGV)
-cli.run
