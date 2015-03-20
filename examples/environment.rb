@@ -1,5 +1,4 @@
 require_relative '../lib/songkick_queue'
-require 'logger'
 
 SongkickQueue.configure do |config|
   config.amqp = 'amqp://localhost:5672'
