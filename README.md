@@ -59,7 +59,7 @@ end
 Run the built in binary:
 
 ```sh
-$ bin/songkick_queue --help
+$ songkick_queue --help
 Usage: songkick_consumer [options]
     -r, --require LIBRARY            Path to require LIBRARY. Usually this will be a file that
                                      requires some consumers
@@ -71,7 +71,7 @@ Usage: songkick_consumer [options]
 Example usage:
 
 ```sh
-$ bin/songkick_queue -r ./lib/environment.rb -c TweetConsumer -n notifications_worker
+$ songkick_queue -r ./lib/environment.rb -c TweetConsumer -n notifications_worker
 ```
 
 ```sh
