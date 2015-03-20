@@ -6,9 +6,11 @@ module SongkickQueue
     attr_reader :options
 
     def initialize(argv)
-      @options = OpenStruct.new
-      @options.libraries = []
-      @options.consumers = []
+      @options = OpenStruct.new(
+        libraries: [],
+        consumers: [],
+        process_name: 'songkick_queue'
+      )
 
       parse_options(argv)
     end
@@ -28,6 +30,11 @@ module SongkickQueue
           options.consumers << class_name
         end
 
+        opts.on('-n', '--name NAME',
+                'Set the process name to NAME') do |name|
+          options.process_name = name
+        end
+
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts
           exit
@@ -42,6 +49,8 @@ module SongkickQueue
         require lib
       end
 
+      process_name = options.process_name
+
       if options.consumers.empty?
         puts "No consumers provided, exiting..."
         exit 1
@@ -51,7 +60,7 @@ module SongkickQueue
         Object.const_get(class_name)
       end
 
-      Worker.new(consumers).run
+      Worker.new(process_name, consumers).run
     end
   end
 end

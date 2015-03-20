@@ -58,10 +58,26 @@ end
 
 Run the built in binary:
 
-    $ bin/songkick_consumer --require 'lib/environment' -n "notifications"
+```sh
+$ bin/songkick_queue --help
+Usage: songkick_consumer [options]
+    -r, --require LIBRARY            Path to require LIBRARY. Usually this will be a file that
+                                     requires some consumers
+    -c, --consumer CLASS_NAME        Register consumer with CLASS_NAME
+    -n, --name NAME                  Set the process name to NAME
+    -h, --help                       Show this message
+```
 
-The process name of the worker will be "notifications" when idle or
-"notifications-TweetConsumer[234]" when processing a job.
+Example usage:
+
+```sh
+$ bin/songkick_queue -r ./lib/environment.rb -c TweetConsumer -n notifications_worker
+```
+
+```sh
+$ ps aux | grep 'tweet_worker'
+22320   0.0  0.3  2486900  25368 s001  S+    4:59pm   0:00.84 notifications_worker[idle]
+```
 
 Or make your own:
 
