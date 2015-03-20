@@ -75,7 +75,7 @@ $ songkick_queue -r ./lib/environment.rb -c TweetConsumer -n notifications_worke
 ```
 
 ```sh
-$ ps aux | grep 'tweet_worker'
+$ ps aux | grep 'notifications_worker'
 22320   0.0  0.3  2486900  25368 s001  S+    4:59pm   0:00.84 notifications_worker[idle]
 ```
 
@@ -95,3 +95,9 @@ SongkickQueue::CLI.new(ARGV).run
 ```ruby
 SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
 ```
+
+### TODO
+
+* Write some specs
+* Add a message UUID when publishing (add to process name when processing)
+* Add #requeue and #reject methods to consumer mixin
