@@ -19,4 +19,9 @@ module SongkickQueue
   def self.configure
     yield(configuration)
   end
+
+  def self.publish(queue_name, message)
+    @producer ||= Producer.new
+    @producer.publish(queue_name, message)
+  end
 end
