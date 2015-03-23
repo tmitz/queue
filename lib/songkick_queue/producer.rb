@@ -5,7 +5,7 @@ module SongkickQueue
     end
 
     def publish(queue_name, message)
-      payload = JSON.dump(message)
+      payload = JSON.generate(message)
 
       client
         .default_exchange
