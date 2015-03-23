@@ -6,7 +6,6 @@ A gem for processing tasks asynchronously, powered by RabbitMQ.
 
 * Ruby 2.0+
 * RabbitMQ ~v2.8
-* Bunny gem ~v1.2
 
 ## Installation
 
