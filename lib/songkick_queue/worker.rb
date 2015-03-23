@@ -56,6 +56,7 @@ module SongkickQueue
             logger.info "Recevied SIG#{@shutdown}, shutting down consumers"
 
             @client.channel.work_pool.shutdown
+            @shutdown = nil
           end
         end
       end
