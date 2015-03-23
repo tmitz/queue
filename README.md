@@ -119,12 +119,14 @@ $ rspec
 
 ## Documentation
 
-The documentation is written inline and procesed using YARD. To generate and view the documentation
-run:
+The documentation is written inline in the source code and processed using YARD. To generate and
+view the documentation run:
 
 ```sh
 $ yardoc
-$ open doc/index.html
+$ yard server --reload
+
+$ open http://localhost:8808/
 ```
 
 ## TODO
