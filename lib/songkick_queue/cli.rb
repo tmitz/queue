@@ -49,10 +49,8 @@ module SongkickQueue
         require lib
       end
 
-      process_name = options.process_name
-
       if options.consumers.empty?
-        puts "No consumers provided, exiting..."
+        puts 'No consumers provided, exiting. Run `songkick_queue --help` for more info.'
         exit 1
       end
 
@@ -60,7 +58,7 @@ module SongkickQueue
         Object.const_get(class_name)
       end
 
-      Worker.new(process_name, consumers).run
+      Worker.new(options.process_name, consumers).run
     end
   end
 end
