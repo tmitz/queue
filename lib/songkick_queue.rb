@@ -23,7 +23,12 @@ module SongkickQueue
   end
 
   def self.publish(queue_name, message)
+    producer.publish(queue_name, message)
+  end
+
+  private
+
+  def self.producer
     @producer ||= Producer.new
-    @producer.publish(queue_name, message)
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe SongkickQueue do
   describe "#publish" do
     it "should call #publish on instance Producer" do
       producer = instance_double(SongkickQueue::Producer)
-      allow(SongkickQueue::Producer).to receive(:new) { producer }
+      allow(SongkickQueue).to receive(:producer) { producer }
 
       expect(producer).to receive(:publish).with(:queue_name, :message)
 
