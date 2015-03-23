@@ -55,24 +55,26 @@ module SongkickQueue
       queue = channel.queue(consumer_class.queue_name, durable: true,
         arguments: {'x-ha-policy' => 'all'})
 
-      queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
+      queue.subscribe do |delivery_info, properties, payload|
         begin
           set_process_name(consumer_class)
 
           logger.info "Processing message via #{consumer_class}..."
 
-          message = JSON.load(payload)
+          message = JSON.parse(payload, symbolize_names: true)
 
-          consumer = consumer_class.new(delivery_info)
+          consumer = consumer_class.new(delivery_info, logger)
           consumer.process(message)
 
-          channel.ack(delivery_info.delivery_tag, false)
+
           set_process_name
         rescue Object => exception
           logger.error(exception)
           set_process_name
         end
       end
+
+      logger.info "Subscribed #{consumer_class} to #{consumer_class.queue_name}"
     end
 
     def channel
