@@ -2,6 +2,12 @@
 
 A gem for processing tasks asynchronously, powered by RabbitMQ.
 
+## Dependencies
+
+* Ruby 2.0+
+* RabbitMQ ~v2.8
+* Bunny gem ~v1.2
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,6 +28,8 @@ Or install it yourself as:
 
 ### Setup
 
+You must define both the AMQP URL and a logger instance:
+
 ```ruby
 SongkickQueue.configure do |config|
   config.amqp = 'amqp://localhost:5672'
@@ -30,6 +38,14 @@ end
 ```
 
 ### Creating consumers
+
+To create a consumer simply construct a new class and include the `SongkickQueue::Consumer`
+module.
+
+Consumers must declare a queue name to consume from (by calling `consume_from_queue`) and
+and define a `#process` method which receives a message.
+
+For example:
 
 ```ruby
 class TweetConsumer
@@ -49,6 +65,8 @@ class TweetConsumer
 end
 ```
 
+Consumers have the logger you declared in the configuration available to them.
+
 ### Running consumers
 
 Run the built in binary:
@@ -63,6 +81,9 @@ Usage: songkick_consumer [options]
     -h, --help                       Show this message
 ```
 
+Both the `--require` and `--consumer` arguments can be passed multiple times, for example to run
+multiple consumers in one process.
+
 Example usage:
 
 ```sh
@@ -75,6 +96,15 @@ $ ps aux | grep 'notifications_worker'
 ```
 
 ### Publishing messages
+
+To publish messages for consumers, call the `#publish` method on `SongkickQueue`, passing in the
+name of the queue to publish to and the message to send.
+
+The queue name must match one declared in a consumer by calling `consume_from_queue`.
+
+The message can be any primitive Ruby object that can be serialized into JSON. Messages are
+serialized whilst enqueued and deserialized for being passed to the `#process` method in your
+consumer.
 
 ```ruby
 SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
