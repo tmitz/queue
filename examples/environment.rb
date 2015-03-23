@@ -18,7 +18,7 @@ class TweetConsumer
   def process(payload)
     puts "TweetConsumer#process(#{payload})"
 
-    3.times do
+    10.times do
       sleep 1
       puts "Processing..."
     end
