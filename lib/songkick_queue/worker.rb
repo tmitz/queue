@@ -82,7 +82,7 @@ module SongkickQueue
     end
 
     def logger
-      config.logger
+      config.logger || fail(ArgumentError, 'No logger configured, see README for more details')
     end
 
     def config
