@@ -22,13 +22,25 @@ module SongkickQueue
       end
     end
 
+    describe "#initialize" do
+      it "should pass a logger" do
+        class ExampleConsumer
+          include SongkickQueue::Consumer
+        end
+
+        consumer = ExampleConsumer.new(:delivery_info, :logger)
+
+        expect(consumer.logger).to eq :logger
+      end
+    end
+
     describe "#process" do
       it "should fail if not overridden" do
         class ExampleConsumer
           include SongkickQueue::Consumer
         end
 
-        consumer = ExampleConsumer.new(:delivery_info, nil)
+        consumer = ExampleConsumer.new(:delivery_info, :logger)
 
         expect { consumer.process(:message) }.to raise_error(NotImplementedError)
       end
