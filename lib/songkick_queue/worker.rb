@@ -56,25 +56,27 @@ module SongkickQueue
         arguments: {'x-ha-policy' => 'all'})
 
       queue.subscribe do |delivery_info, properties, payload|
-        begin
-          set_process_name(consumer_class)
-
-          logger.info "Processing message via #{consumer_class}..."
-
-          message = JSON.parse(payload, symbolize_names: true)
-
-          consumer = consumer_class.new(delivery_info, logger)
-          consumer.process(message)
-
-
-          set_process_name
-        rescue Object => exception
-          logger.error(exception)
-          set_process_name
-        end
+        process_message(consumer_class, delivery_info, properties, payload)
       end
 
       logger.info "Subscribed #{consumer_class} to #{consumer_class.queue_name}"
+    end
+
+    def process_message(consumer_class, delivery_info, properties, payload)
+      set_process_name(consumer_class)
+
+      logger.info "Processing message via #{consumer_class}..."
+
+      message = JSON.parse(payload, symbolize_names: true)
+
+      consumer = consumer_class.new(delivery_info, logger)
+      consumer.process(message)
+
+      set_process_name
+    rescue Object => exception
+      logger.error(exception)
+    ensure
+      set_process_name
     end
 
     def channel
@@ -94,7 +96,7 @@ module SongkickQueue
         .gsub(/([A-Z]+)/) { "_#{$1.downcase}" }
         .sub(/^_(\w)/) { $1 }
 
-      $0 = "#{process_name}[#{formatted_status}]"
+      $PROGRAM_NAME = "#{process_name}[#{formatted_status}]"
     end
   end
 end
