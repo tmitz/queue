@@ -79,17 +79,6 @@ $ ps aux | grep 'notifications_worker'
 22320   0.0  0.3  2486900  25368 s001  S+    4:59pm   0:00.84 notifications_worker[idle]
 ```
 
-Or make your own:
-
-```ruby
-#!/usr/bin/env ruby
-
-require 'lib/environment'
-require 'songkick_queue'
-
-SongkickQueue::CLI.new(ARGV).run
-```
-
 ### Publishing messages
 
 ```ruby
