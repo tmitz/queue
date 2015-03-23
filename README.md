@@ -112,7 +112,7 @@ SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', use
 
 ## Tests
 
-The tests are written in RSpec. Run them by doing:
+The tests are written in RSpec. Run them by calling:
 
 ```sh
 $ rspec
