@@ -20,6 +20,7 @@ module SongkickQueue
 
   def self.configure
     yield(configuration)
+    raise "SongkickQueue requires a logger" unless configuration.logger
   end
 
   def self.publish(queue_name, message)

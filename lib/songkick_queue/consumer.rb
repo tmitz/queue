@@ -1,6 +1,6 @@
 module SongkickQueue
   module Consumer
-    attr_reader :delivery_info
+    attr_reader :delivery_info, :logger
 
     module ClassMethods
       def consume_from_queue(queue_name)
@@ -17,8 +17,9 @@ module SongkickQueue
       base.extend(ClassMethods)
     end
 
-    def initialize(delivery_info)
+    def initialize(delivery_info, logger)
       @delivery_info = delivery_info
+      @logger        = logger
     end
 
     def process(payload)
