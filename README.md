@@ -38,18 +38,13 @@ class TweetConsumer
   consume_from_queue 'notifications-service.tweets'
 
   def process(message)
-    set_message_name(message[:user_id])
     logger.info "Received message: #{message.inspect}"
 
     TwitterClient.send_tweet(message[:text], message[:user_id])
   rescue TwitterClient::HttpError => e
     logger.warn(e)
-
-    requeue!
   rescue StandardError => e
     logger.error(e)
-
-    reject!
   end
 end
 ```
@@ -85,8 +80,15 @@ $ ps aux | grep 'notifications_worker'
 SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
 ```
 
-### TODO
+## Tests
 
-* Write some specs
+The tests are written in RSpec. Run them by doing:
+
+```sh
+$ rspec
+```
+
+## TODO
+
 * Add a message UUID when publishing (add to process name when processing)
-* Add #requeue and #reject methods to consumer mixin
+* Look at adding acknowledgement, along with #requeue and #reject methods in consumer mixin
