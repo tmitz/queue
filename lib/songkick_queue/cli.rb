@@ -9,7 +9,7 @@ module SongkickQueue
       @options = OpenStruct.new(
         libraries: [],
         consumers: [],
-        process_name: 'songkick_queue'
+        process_name: 'songkick_queue',
       )
 
       parse_options(argv)
