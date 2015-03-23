@@ -20,6 +20,10 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.2"
+  spec.add_development_dependency "yard"
+
+  # Used by yardoc for processing README.md code snippets
+  spec.add_development_dependency "redcarpet"
 
   spec.add_dependency "bunny", "~> 1.2.1"
 end

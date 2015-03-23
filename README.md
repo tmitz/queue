@@ -117,6 +117,16 @@ The tests are written in RSpec. Run them by calling:
 $ rspec
 ```
 
+## Documentation
+
+The documentation is written inline and procesed using YARD. To generate and view the documentation
+run:
+
+```sh
+$ yardoc
+$ open doc/index.html
+```
+
 ## TODO
 
 * Add a message UUID when publishing (add to process name when processing)

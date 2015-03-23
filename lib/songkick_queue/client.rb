@@ -16,6 +16,9 @@ module SongkickQueue
       end
     end
 
+    # Creates a memoized connection to RabbitMQ
+    #
+    # @return [Bunny::Session]
     def connection
       @connection ||= begin
         connection = Bunny.new(config_amqp)
@@ -25,13 +28,11 @@ module SongkickQueue
       end
     end
 
-    def close
-      channel.close
-      connection.close
-    end
-
     private
 
+    # Retrieve the AMQP URL from the configuration
+    #
+    # @raise [ConfigurationError] if not defined
     def config_amqp
       config.amqp || fail(ConfigurationError, 'missing AMQP URL from config')
     end

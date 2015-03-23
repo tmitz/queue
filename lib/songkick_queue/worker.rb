@@ -4,6 +4,8 @@ module SongkickQueue
   class Worker
     attr_reader :process_name, :consumer_classes
 
+    # @param process_name [String] of the custom process name to use
+    # @param consumer_classes, [Array<Class>, Class] of consumer class names
     def initialize(process_name, consumer_classes = [])
       @process_name = process_name
       @consumer_classes = Array(consumer_classes)
@@ -15,6 +17,9 @@ module SongkickQueue
       @client = Client.new
     end
 
+    # Subscribes the consumers classes to their defined message queues and
+    # blocks until all the work pool consumers have finished. Also sets up
+    # signal catching for graceful exits no interrupt
     def run
       set_process_name
 
@@ -37,6 +42,11 @@ module SongkickQueue
       trap('TERM') { @shutdown = 'TERM' }
     end
 
+    # Checks for presence of @shutdown every 1 second and if found instructs
+    # all the channel's work pool consumers to shutdown. Each work pool thread
+    # will finish its current task and then join the main thread. Once all the
+    # threads have joined then `channel.work_pool.join` will cease blocking and
+    # return, causing the process to terminate.
     def stop_if_signal_caught
       Thread.new do
         loop do
@@ -51,6 +61,9 @@ module SongkickQueue
       end
     end
 
+    # Declare a queue and subscribe to it
+    #
+    # @param consumer_class [Class] to subscribe to
     def subscribe_to_queue(consumer_class)
       queue = channel.queue(consumer_class.queue_name, durable: true,
         arguments: {'x-ha-policy' => 'all'})
@@ -62,6 +75,12 @@ module SongkickQueue
       logger.info "Subscribed #{consumer_class} to #{consumer_class.queue_name}"
     end
 
+    # Handle receipt of a subscribed message
+    #
+    # @param consumer_class [Class] that was subscribed to
+    # @param delivery_info [Bunny::DeliveryInfo]
+    # @param properties [Bunny::MessageProperties]
+    # @param payload [String] to deserialize
     def process_message(consumer_class, delivery_info, properties, payload)
       set_process_name(consumer_class)
 
@@ -83,8 +102,11 @@ module SongkickQueue
       client.channel
     end
 
+    # Retrieve the logger defined in the configuration
+    #
+    # @raise [ConfigurationError] if not defined
     def logger
-      config.logger || fail(ArgumentError, 'No logger configured, see README for more details')
+      config.logger || fail(ConfigurationError, 'No logger configured, see README for more details')
     end
 
     def config

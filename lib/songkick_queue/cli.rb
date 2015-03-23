@@ -5,6 +5,7 @@ module SongkickQueue
   class CLI
     attr_reader :options
 
+    # @param argv [Array<String>] of command line arguments
     def initialize(argv)
       @options = OpenStruct.new(
         libraries: [],
@@ -15,9 +16,12 @@ module SongkickQueue
       parse_options(argv)
     end
 
+    # Parse the command line arguments using OptionParser
+    #
+    # @param argv [Array<String>] of command line arguments
     def parse_options(argv)
       option_parser = OptionParser.new do |opts|
-        opts.banner = "Usage: songkick_consumer [options]"
+        opts.banner = 'Usage: songkick_consumer [options]'
 
         opts.on('-r', '--require LIBRARY',
                 'Path to require LIBRARY. Usually this will be a file that ',
@@ -44,6 +48,9 @@ module SongkickQueue
       option_parser.parse!(argv)
     end
 
+    # Instantiates and runs a new Worker for the parsed options. Calling this
+    # method blocks the main Thread. See Worker#run for more info
+    #
     def run
       options.libraries.each do |lib|
         require lib
