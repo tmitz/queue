@@ -28,7 +28,7 @@ module SongkickQueue
           include SongkickQueue::Consumer
         end
 
-        consumer = ExampleConsumer.new(:delivery_info)
+        consumer = ExampleConsumer.new(:delivery_info, nil)
 
         expect { consumer.process(:message) }.to raise_error(NotImplementedError)
       end
