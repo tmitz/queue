@@ -68,7 +68,7 @@ module SongkickQueue
       queue = channel.queue(consumer_class.queue_name, durable: true,
         arguments: {'x-ha-policy' => 'all'})
 
-      queue.subscribe do |delivery_info, properties, payload|
+      queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
         process_message(consumer_class, delivery_info, properties, payload)
       end
 
@@ -82,20 +82,19 @@ module SongkickQueue
     # @param properties [Bunny::MessageProperties]
     # @param payload [String] to deserialize
     def process_message(consumer_class, delivery_info, properties, payload)
-      set_process_name(consumer_class)
-
       logger.info "Processing message via #{consumer_class}..."
+
+      set_process_name(consumer_class)
 
       message = JSON.parse(payload, symbolize_names: true)
 
       consumer = consumer_class.new(delivery_info, logger)
       consumer.process(message)
-
-      set_process_name
     rescue Object => exception
       logger.error(exception)
     ensure
       set_process_name
+      channel.ack(delivery_info.delivery_tag, false)
     end
 
     def channel
