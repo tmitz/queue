@@ -120,6 +120,7 @@ module SongkickQueue
     # @param status [String] of the program
     def set_process_name(status = 'idle')
       formatted_status = String(status)
+        .gsub('::', '')
         .gsub(/([A-Z]+)/) { "_#{$1.downcase}" }
         .sub(/^_(\w)/) { $1 }
 
