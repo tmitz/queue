@@ -5,7 +5,7 @@ module SongkickQueue
     attr_reader :process_name, :consumer_classes
 
     # @param process_name [String] of the custom process name to use
-    # @param consumer_classes, [Array<Class>, Class] of consumer class names
+    # @param consumer_classes [Array<Class>, Class] of consumer class names
     def initialize(process_name, consumer_classes = [])
       @process_name = process_name
       @consumer_classes = Array(consumer_classes)

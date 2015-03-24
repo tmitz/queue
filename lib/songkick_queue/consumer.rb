@@ -34,7 +34,7 @@ module SongkickQueue
     # Placeholder method to ensure each client consumer defines their own
     # process message
     #
-    # @params message [Object] to process
+    # @param message [Object] to process
     # @raise [NotImplementedError]
     def process(message)
       fail NotImplementedError, 'you must define a #process method in your ' +
