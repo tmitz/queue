@@ -1,5 +1,3 @@
-require 'thread'
-
 module SongkickQueue
   class Worker
     attr_reader :process_name, :consumer_classes
