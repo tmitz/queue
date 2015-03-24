@@ -72,19 +72,26 @@ module SongkickQueue
         logger = double(:logger, info: :null)
         allow(worker).to receive(:logger) { logger }
 
+        channel = double(:channel, ack: :null)
+        allow(worker).to receive(:channel) { channel }
+
+        delivery_info = double(:delivery_info, delivery_tag: 'tag')
+
         consumer = double(FooConsumer, process: :null)
 
         expect(FooConsumer).to receive(:new)
-          .with(:delivery_info, logger) { consumer }
+          .with(delivery_info, logger) { consumer }
 
         expect(consumer).to receive(:process)
           .with({ example: 'message', value: true})
 
-        worker.send(:process_message, FooConsumer, :delivery_info,
+        worker.send(:process_message, FooConsumer, delivery_info,
           :properties, '{"example":"message","value":true}')
 
         expect(logger).to have_received(:info)
           .with('Processing message via FooConsumer...')
+
+        expect(channel).to have_received(:ack).with('tag', false)
       end
     end
   end
