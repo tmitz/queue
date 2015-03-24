@@ -111,6 +111,13 @@ module SongkickQueue
       SongkickQueue.configuration
     end
 
+    # Update the name of this process, as viewed in `ps` or `top`
+    #
+    # @example idle
+    #   set_process_name #=> "songkick_queue[idle]"
+    # @example consumer running
+    #   set_process_name(TweetConsumer) #=> "songkick_queue[tweet_consumer]"
+    # @param status [String] of the program
     def set_process_name(status = 'idle')
       formatted_status = String(status)
         .gsub(/([A-Z]+)/) { "_#{$1.downcase}" }
