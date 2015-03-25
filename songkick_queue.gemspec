@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["dan.lucraft@songkick.com", "paul.springett@songkick.com"]
   spec.summary       = %q{A gem for processing tasks asynchronously, powered by RabbitMQ.}
   spec.description   = %q{A gem for processing tasks asynchronously, powered by RabbitMQ.}
-  spec.homepage      = "https://git.songkick.net/?p=songkick-queue.git;a=tree"
-  spec.license       = ""
+  spec.homepage      = "https://github.com/songkick/songkick_queue"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
