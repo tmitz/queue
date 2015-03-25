@@ -74,7 +74,7 @@ Run the built in binary:
 
 ```sh
 $ songkick_queue --help
-Usage: songkick_consumer [options]
+Usage: songkick_queue [options]
     -r, --require LIBRARY            Path to require LIBRARY. Usually this will be a file that
                                      requires some consumers
     -c, --consumer CLASS_NAME        Register consumer with CLASS_NAME
