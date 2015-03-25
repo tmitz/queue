@@ -105,10 +105,10 @@ NB. The `songkick_queue` process does not daemonize. We recommend running it usi
 To publish messages for consumers, call the `#publish` method on `SongkickQueue`, passing in the
 name of the queue to publish to and the message to send.
 
-The queue name must match one declared in a consumer by calling `consume_from_queue`.
+The queue name must match one declared by `consume_from_queue` in a consumer.
 
 The message can be any primitive Ruby object that can be serialized into JSON. Messages are
-serialized whilst enqueued and deserialized for being passed to the `#process` method in your
+serialized whilst enqueued and deserialized before being passed to the `#process` method in your
 consumer.
 
 ```ruby
