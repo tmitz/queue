@@ -2,6 +2,7 @@
 
 A gem for processing tasks asynchronously, powered by RabbitMQ.
 
+[![Rubygems](https://badge.fury.io/rb/songkick_queue.svg)](https://rubygems.org/gems/songkick_queue)
 [![Build status](https://travis-ci.org/songkick/queue.svg?branch=master)](https://travis-ci.org/songkick/queue)
 
 ## Dependencies
