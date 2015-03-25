@@ -2,7 +2,7 @@
 
 A gem for processing tasks asynchronously, powered by RabbitMQ.
 
-[![Build status](https://travis-ci.org/songkick/songkick_queue.svg?branch=master)](https://travis-ci.org/songkick/songkick_queue)
+[![Build status](https://travis-ci.org/songkick/queue.svg?branch=master)](https://travis-ci.org/songkick/queue)
 
 ## Dependencies
 
@@ -82,7 +82,7 @@ Usage: songkick_consumer [options]
     -h, --help                       Show this message
 ```
 
-Both the `--require` and `--consumer` arguments can be passed multiple times, for example to run
+Both the `--require` and `--consumer` arguments can be passed multiple times, enabling you to run
 multiple consumers in one process.
 
 Example usage:
@@ -113,7 +113,7 @@ SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', use
 
 ## Tests
 
-See the current build status on Travis CI: https://travis-ci.org/songkick/songkick_queue
+See the current build status on Travis CI: https://travis-ci.org/songkick/queue
 
 The tests are written in RSpec. Run them by calling:
 
@@ -123,7 +123,7 @@ $ rspec
 
 ## Documentation
 
-Up to date docs are available on RubyDoc: http://www.rubydoc.info/github/songkick/songkick_queue
+Up to date docs are available on RubyDoc: http://www.rubydoc.info/github/songkick/queue
 
 The documentation is written inline in the source code and processed using YARD. To generate and
 view the documentation locally, run:
@@ -144,7 +144,7 @@ $ open http://localhost:8808/
 
 Pull requests are welcome!
 
-1. Fork it ( https://github.com/songkick/songkick_queue/fork )
+1. Fork it ( https://github.com/songkick/queue/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
