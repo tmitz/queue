@@ -2,6 +2,8 @@
 
 A gem for processing tasks asynchronously, powered by RabbitMQ.
 
+![Build status](https://travis-ci.org/songkick/songkick_queue.svg?branch=master)
+
 ## Dependencies
 
 * Ruby 2.0+
@@ -110,6 +112,8 @@ SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', use
 ```
 
 ## Tests
+
+See the current build status on Travis CI: https://travis-ci.org/songkick/songkick_queue
 
 The tests are written in RSpec. Run them by calling:
 
