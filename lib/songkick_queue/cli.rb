@@ -21,7 +21,7 @@ module SongkickQueue
     # @param argv [Array<String>] of command line arguments
     def parse_options(argv)
       option_parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: songkick_consumer [options]'
+        opts.banner = 'Usage: songkick_queue [options]'
 
         opts.on('-r', '--require LIBRARY',
                 'Path to require LIBRARY. Usually this will be a file that ',
