@@ -45,7 +45,7 @@ To create a consumer simply construct a new class and include the `SongkickQueue
 module.
 
 Consumers must declare a queue name to consume from (by calling `consume_from_queue`) and
-and define a `#process` method which receives a message.
+define a `#process` method which receives a message.
 
 For example:
 
