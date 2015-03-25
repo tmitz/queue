@@ -138,7 +138,7 @@ $ open http://localhost:8808/
 ## TODO
 
 * Add a message UUID when publishing (add to process name when processing)
-* Look at adding acknowledgement, along with #requeue and #reject methods in consumer mixin
+* Look at adding #requeue and #reject methods in consumer mixin
 
 ## Contributing
 
