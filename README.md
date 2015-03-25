@@ -135,3 +135,13 @@ $ open http://localhost:8808/
 
 * Add a message UUID when publishing (add to process name when processing)
 * Look at adding acknowledgement, along with #requeue and #reject methods in consumer mixin
+
+## Contributing
+
+Pull requests are welcome!
+
+1. Fork it ( https://github.com/songkick/songkick_queue/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
