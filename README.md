@@ -96,6 +96,9 @@ $ ps aux | grep 'notifications_worker'
 22320   0.0  0.3  2486900  25368 s001  S+    4:59pm   0:00.84 notifications_worker[idle]
 ```
 
+NB. The `songkick_queue` process does not daemonize. We recommend running it using something like
+[supervisor](http://supervisord.org/) or [god](http://godrb.com/).
+
 ### Publishing messages
 
 To publish messages for consumers, call the `#publish` method on `SongkickQueue`, passing in the
