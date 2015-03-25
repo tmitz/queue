@@ -119,8 +119,10 @@ $ rspec
 
 ## Documentation
 
+Up to date docs are available on RubyDoc: http://www.rubydoc.info/github/songkick/songkick_queue
+
 The documentation is written inline in the source code and processed using YARD. To generate and
-view the documentation run:
+view the documentation locally, run:
 
 ```sh
 $ yardoc
@@ -131,8 +133,5 @@ $ open http://localhost:8808/
 
 ## TODO
 
-* Look at open sourcing project on GitHub
-  * Add spec build to [Travis CI](https://travis-ci.org/)
-  * Add docs to [RubyDoc](http://www.rubydoc.info/)
 * Add a message UUID when publishing (add to process name when processing)
 * Look at adding acknowledgement, along with #requeue and #reject methods in consumer mixin
