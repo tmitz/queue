@@ -9,7 +9,7 @@ require 'songkick_queue/worker'
 require 'songkick_queue/cli'
 
 module SongkickQueue
-  Configuration = Struct.new(:amqp, :logger)
+  Configuration = Struct.new(:amqp, :logger, :queue_namespace)
   ConfigurationError = Class.new(StandardError)
 
   # Retrieve configuration for SongkickQueue

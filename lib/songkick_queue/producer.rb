@@ -12,12 +12,27 @@ module SongkickQueue
     def publish(queue_name, message)
       payload = JSON.generate(message)
 
+      routing_key = [config.queue_namespace, queue_name].compact.join('.')
+
       client
         .default_exchange
-        .publish(payload, routing_key: String(queue_name))
+        .publish(payload, routing_key: routing_key)
+
+      logger.info "Published message to #{routing_key}"
     end
 
     private
+
+    # Retrieve the logger defined in the configuration
+    #
+    # @raise [ConfigurationError] if not defined
+    def logger
+      config.logger || fail(ConfigurationError, 'No logger configured, see README for more details')
+    end
+
+    def config
+      SongkickQueue.configuration
+    end
 
     attr_reader :client
   end

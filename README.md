@@ -34,10 +34,15 @@ You must define both the AMQP URL and a logger instance:
 
 ```ruby
 SongkickQueue.configure do |config|
-  config.amqp = 'amqp://localhost:5672'
-  config.logger = Logger.new(STDOUT)
+  config.amqp = 'amqp://localhost:5672'    # required
+  config.logger = Logger.new(STDOUT)       # required
+  config.queue_namespace = ENV['RACK_ENV'] # optional
 end
 ```
+
+You can also optionally define a namespace to apply to your queue names automatically when
+publishing and consuming. This can be useful to isolate environments that share the same RabbitMQ
+instance.
 
 ### Creating consumers
 

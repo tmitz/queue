@@ -65,7 +65,7 @@ module SongkickQueue
     # @param consumer_class [Class] to subscribe to
     def subscribe_to_queue(consumer_class)
       queue = channel.queue(consumer_class.queue_name, durable: true,
-        arguments: {'x-ha-policy' => 'all'})
+        arguments: { 'x-ha-policy' => 'all' })
 
       queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
         process_message(consumer_class, delivery_info, properties, payload)
