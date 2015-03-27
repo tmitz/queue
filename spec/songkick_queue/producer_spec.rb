@@ -15,6 +15,21 @@ module SongkickQueue
 
         producer.publish(:queue_name, { example: 'message', value: true })
       end
+
+      it "should publish with a routing key using the configured queue namespace" do
+        producer = Producer.new
+
+        exchange = double(:exchange, publish: :published)
+        client = instance_double(Client, default_exchange: exchange)
+        allow(producer).to receive(:client) { client }
+
+        expect(exchange).to receive(:publish)
+          .with('{"example":"message","value":true}', routing_key: 'test-env.queue_name')
+
+        allow(producer).to receive(:config) { double(queue_namespace: 'test-env') }
+
+        producer.publish(:queue_name, { example: 'message', value: true })
+      end
     end
   end
 end

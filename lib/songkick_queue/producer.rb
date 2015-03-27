@@ -12,12 +12,18 @@ module SongkickQueue
     def publish(queue_name, message)
       payload = JSON.generate(message)
 
+      routing_key = [config.queue_namespace, queue_name].compact.join('.')
+
       client
         .default_exchange
-        .publish(payload, routing_key: String(queue_name))
+        .publish(payload, routing_key: routing_key)
     end
 
     private
+
+    def config
+      SongkickQueue.configuration
+    end
 
     attr_reader :client
   end
