@@ -17,9 +17,18 @@ module SongkickQueue
       client
         .default_exchange
         .publish(payload, routing_key: routing_key)
+
+      logger.info "Published message to #{routing_key}"
     end
 
     private
+
+    # Retrieve the logger defined in the configuration
+    #
+    # @raise [ConfigurationError] if not defined
+    def logger
+      config.logger || fail(ConfigurationError, 'No logger configured, see README for more details')
+    end
 
     def config
       SongkickQueue.configuration
