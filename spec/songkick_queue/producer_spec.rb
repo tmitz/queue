@@ -10,8 +10,13 @@ module SongkickQueue
         client = instance_double(Client, default_exchange: exchange)
         allow(producer).to receive(:client) { client }
 
+        logger = double(:logger, info: true)
+        allow(producer).to receive(:logger) { logger }
+
         expect(exchange).to receive(:publish)
           .with('{"example":"message","value":true}', routing_key: 'queue_name')
+
+        expect(logger).to receive(:info).with('Published message to queue_name')
 
         producer.publish(:queue_name, { example: 'message', value: true })
       end
@@ -23,8 +28,13 @@ module SongkickQueue
         client = instance_double(Client, default_exchange: exchange)
         allow(producer).to receive(:client) { client }
 
+        logger = double(:logger, info: true)
+        allow(producer).to receive(:logger) { logger }
+
         expect(exchange).to receive(:publish)
           .with('{"example":"message","value":true}', routing_key: 'test-env.queue_name')
+
+        expect(logger).to receive(:info).with('Published message to test-env.queue_name')
 
         allow(producer).to receive(:config) { double(queue_namespace: 'test-env') }
 
