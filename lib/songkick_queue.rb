@@ -1,4 +1,5 @@
 require 'json'
+require 'securerandom'
 require 'bunny'
 
 require 'songkick_queue/version'
