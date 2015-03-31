@@ -118,14 +118,13 @@ module SongkickQueue
     #
     # @example idle
     #   set_process_name #=> "songkick_queue[idle]"
-    # @example consumer running
-    #   set_process_name(TweetConsumer) #=> "songkick_queue[tweet_consumer]"
+    # @example consumer running, namespace is removed
+    #   set_process_name(Foo::TweetConsumer) #=> "songkick_queue[TweetConsumer]"
     # @param status [String] of the program
     def set_process_name(status = 'idle')
       formatted_status = String(status)
-        .gsub('::', '')
-        .gsub(/([A-Z]+)/) { "_#{$1.downcase}" }
-        .sub(/^_(\w)/) { $1 }
+        .split('::')
+        .last
 
       $PROGRAM_NAME = "#{process_name}[#{formatted_status}]"
     end
