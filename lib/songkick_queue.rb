@@ -29,10 +29,9 @@ module SongkickQueue
 
   # Publishes the given message to the given queue
   #
-  # @param queue_name [String] to publish to
-  # @param message [#to_json] to serialize and enqueue
-  def self.publish(queue_name, message)
-    producer.publish(queue_name, message)
+  # @see SongkickQueue::Producer#publish for argument documentation
+  def self.publish(queue_name, message, options = {})
+    producer.publish(queue_name, message, options = {})
   end
 
   private
