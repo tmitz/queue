@@ -11,7 +11,7 @@ module SongkickQueue
     # @param message [#to_json] to serialize and enqueue
     def publish(queue_name, payload, options = {})
       message_id = options.fetch(:message_id) { SecureRandom.hex(6) }
-      produced_at = options.fetch(:produced_at) { Time.new.utc.iso8601 }
+      produced_at = options.fetch(:produced_at) { Time.now.utc.iso8601 }
 
       message = {
         message_id: message_id,
