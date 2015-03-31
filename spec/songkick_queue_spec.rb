@@ -14,7 +14,7 @@ RSpec.describe SongkickQueue do
       producer = instance_double(SongkickQueue::Producer)
       allow(SongkickQueue).to receive(:producer) { producer }
 
-      expect(producer).to receive(:publish).with(:queue_name, :message)
+      expect(producer).to receive(:publish).with(:queue_name, :message, {})
 
       SongkickQueue.publish(:queue_name, :message)
     end

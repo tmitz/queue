@@ -93,6 +93,36 @@ module SongkickQueue
 
         expect(channel).to have_received(:ack).with('tag', false)
       end
+
+      it "should handle new message format with nested payload" do
+        ::BarConsumer = Class.new
+        worker = Worker.new(:process_name, BarConsumer)
+
+        logger = double(:logger, info: :null)
+        allow(worker).to receive(:logger) { logger }
+
+        channel = double(:channel, ack: :null)
+        allow(worker).to receive(:channel) { channel }
+
+        delivery_info = double(:delivery_info, delivery_tag: 'tag')
+
+        consumer = double(BarConsumer, process: :null)
+
+        expect(BarConsumer).to receive(:new)
+          .with(delivery_info, logger) { consumer }
+
+        expect(consumer).to receive(:process)
+          .with({ example: 'message', value: true})
+
+        worker.send(:process_message, BarConsumer, delivery_info, :properties,
+          '{"message_id":"92c583bdc248","produced_at":"2015-03-30T15:41:55Z",' +
+          '"payload":{"example":"message","value":true}}')
+
+        expect(logger).to have_received(:info)
+          .with('Processing message via BarConsumer...')
+
+        expect(channel).to have_received(:ack).with('tag', false)
+      end
     end
   end
 end

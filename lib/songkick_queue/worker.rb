@@ -67,8 +67,8 @@ module SongkickQueue
       queue = channel.queue(consumer_class.queue_name, durable: true,
         arguments: { 'x-ha-policy' => 'all' })
 
-      queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
-        process_message(consumer_class, delivery_info, properties, payload)
+      queue.subscribe(manual_ack: true) do |delivery_info, properties, message|
+        process_message(consumer_class, delivery_info, properties, message)
       end
 
       logger.info "Subscribed #{consumer_class} to #{consumer_class.queue_name}"
@@ -79,16 +79,19 @@ module SongkickQueue
     # @param consumer_class [Class] that was subscribed to
     # @param delivery_info [Bunny::DeliveryInfo]
     # @param properties [Bunny::MessageProperties]
-    # @param payload [String] to deserialize
-    def process_message(consumer_class, delivery_info, properties, payload)
-      logger.info "Processing message via #{consumer_class}..."
+    # @param message [String] to deserialize
+    def process_message(consumer_class, delivery_info, properties, message)
+      message = JSON.parse(message, symbolize_names: true)
 
+      # Handle both old and new format of messages
+      # TODO: Tidy this up once messages always have a payload
+      payload = message.fetch(:payload, message)
+
+      logger.info "Processing message via #{consumer_class}..."
       set_process_name(consumer_class)
 
-      message = JSON.parse(payload, symbolize_names: true)
-
       consumer = consumer_class.new(delivery_info, logger)
-      consumer.process(message)
+      consumer.process(payload)
     rescue Object => exception
       logger.error(exception)
     ensure
@@ -115,14 +118,13 @@ module SongkickQueue
     #
     # @example idle
     #   set_process_name #=> "songkick_queue[idle]"
-    # @example consumer running
-    #   set_process_name(TweetConsumer) #=> "songkick_queue[tweet_consumer]"
+    # @example consumer running, namespace is removed
+    #   set_process_name(Foo::TweetConsumer) #=> "songkick_queue[TweetConsumer]"
     # @param status [String] of the program
     def set_process_name(status = 'idle')
       formatted_status = String(status)
-        .gsub('::', '')
-        .gsub(/([A-Z]+)/) { "_#{$1.downcase}" }
-        .sub(/^_(\w)/) { $1 }
+        .split('::')
+        .last
 
       $PROGRAM_NAME = "#{process_name}[#{formatted_status}]"
     end
