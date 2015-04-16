@@ -21,7 +21,7 @@ module SongkickQueue
     # @return [Bunny::Session]
     def connection
       @connection ||= begin
-        connection = Bunny.new(config_amqp)
+        connection = Bunny.new(config_amqp, heartbeat_interval: 60)
         connection.start
 
         connection
