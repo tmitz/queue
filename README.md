@@ -30,19 +30,22 @@ Or install it yourself as:
 
 ### Setup
 
-You must define both the AMQP URL and a logger instance:
+Configure a logger and your AMQP connection settings as follows. The values defined below are the defaults:
 
 ```ruby
 SongkickQueue.configure do |config|
-  config.amqp = 'amqp://localhost:5672'    # required
-  config.logger = Logger.new(STDOUT)       # required
-  config.queue_namespace = ENV['RACK_ENV'] # optional
+  config.logger = Logger.new(STDOUT)
+  config.host = '127.0.0.1'
+  config.port = 5672
+  config.username = 'guest'
+  config.password = 'guest'
+  config.vhost = '/'
 end
 ```
 
-You can also optionally define a namespace to apply to your queue names automatically when
-publishing and consuming. This can be useful to isolate environments that share the same RabbitMQ
-instance.
+SongkickQueue should work out the box with a new, locally installed RabbitMQ instance.
+
+NB. The `vhost` option can be a useful way to isolate environments that share the same RabbitMQ instance (eg. staging and production).
 
 ### Creating consumers
 

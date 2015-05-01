@@ -1,5 +1,6 @@
 require 'json'
 require 'securerandom'
+require 'logger'
 require 'bunny'
 
 require 'songkick_queue/version'
@@ -10,14 +11,25 @@ require 'songkick_queue/worker'
 require 'songkick_queue/cli'
 
 module SongkickQueue
-  Configuration = Struct.new(:amqp, :logger, :queue_namespace)
+  Configuration = Struct.new(
+    :logger,
+    :host,
+    :port,
+    :username,
+    :password,
+    :vhost,
+  )
+
   ConfigurationError = Class.new(StandardError)
 
   # Retrieve configuration for SongkickQueue
   #
   # @return [Configuration]
   def self.configuration
-    @configuration ||= Configuration.new
+    @configuration ||= Configuration.new(
+      logger: Logger.new(STDOUT),
+      port: 5672,
+    )
   end
 
   # Yields a block, passing the memoized configuration instance

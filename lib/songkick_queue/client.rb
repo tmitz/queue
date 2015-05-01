@@ -21,7 +21,15 @@ module SongkickQueue
     # @return [Bunny::Session]
     def connection
       @connection ||= begin
-        connection = Bunny.new(config_amqp, heartbeat_interval: 60)
+        connection = Bunny.new(
+          host: config.host,
+          port: config.port,
+          username: config.username,
+          password: config.password,
+          vhost: config.vhost,
+          heartbeat_interval: 60,
+        )
+
         connection.start
 
         connection
@@ -29,13 +37,6 @@ module SongkickQueue
     end
 
     private
-
-    # Retrieve the AMQP URL from the configuration
-    #
-    # @raise [ConfigurationError] if not defined
-    def config_amqp
-      config.amqp || fail(ConfigurationError, 'missing AMQP URL from config')
-    end
 
     def config
       SongkickQueue.configuration
