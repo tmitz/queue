@@ -16,8 +16,6 @@ module SongkickQueue
       def queue_name
         @queue_name or fail(NotImplementedError, 'you must declare a queue name to consume from ' +
           'by calling #consume_from_queue in your consumer class. See README for more info.')
-
-        [config.queue_namespace, @queue_name].compact.join('.')
       end
 
       def config
