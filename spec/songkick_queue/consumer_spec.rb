@@ -20,18 +20,6 @@ module SongkickQueue
 
         expect(ExampleConsumer.queue_name).to eq 'app.examples'
       end
-
-      it "should add the configured namespace to the queue name" do
-        class ExampleConsumer
-          include SongkickQueue::Consumer
-
-          consume_from_queue 'app.examples'
-        end
-
-        allow(ExampleConsumer).to receive(:config) { double(queue_namespace: 'test-env') }
-
-        expect(ExampleConsumer.queue_name).to eq 'test-env.app.examples'
-      end
     end
 
     describe "#initialize" do
