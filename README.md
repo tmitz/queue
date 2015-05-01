@@ -8,7 +8,7 @@ A gem for processing tasks asynchronously, powered by RabbitMQ.
 ## Dependencies
 
 * Ruby 2.0+
-* RabbitMQ ~v2.8
+* RabbitMQ 3.3+
 
 ## Installation
 
