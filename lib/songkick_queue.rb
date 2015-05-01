@@ -37,6 +37,8 @@ module SongkickQueue
   # @yield [Configuration]
   def self.configure
     yield(configuration)
+
+    configuration
   end
 
   # Publishes the given message to the given queue
