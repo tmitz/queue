@@ -25,7 +25,7 @@ module SongkickQueue
 
       client
         .default_exchange
-        .publish(message, routing_key: queue_name)
+        .publish(message, routing_key: String(queue_name))
 
       logger.info "Published message #{message_id} to '#{queue_name}' at #{produced_at}"
     end
