@@ -23,13 +23,11 @@ module SongkickQueue
 
       message = JSON.generate(message)
 
-      routing_key = [config.queue_namespace, queue_name].compact.join('.')
-
       client
         .default_exchange
-        .publish(message, routing_key: routing_key)
+        .publish(message, routing_key: String(queue_name))
 
-      logger.info "Published message #{message_id} to '#{routing_key}' at #{produced_at}"
+      logger.info "Published message #{message_id} to '#{queue_name}' at #{produced_at}"
     end
 
     private
