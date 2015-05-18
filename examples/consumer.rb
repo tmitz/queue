@@ -1,7 +1,7 @@
-# Example environment file
+# Example consumer
 # Require this file when running `songkick_queue` like so:
 #
-#   $ bin/songkick_queue --require ./examples/environment.rb --consumer TweetConsumer
+#   $ bin/songkick_queue --require ./examples/consumer.rb --consumer TweetConsumer
 #
 require_relative '../lib/songkick_queue'
 

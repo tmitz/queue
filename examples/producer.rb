@@ -1,3 +1,8 @@
+# Example producer
+# Run this file like so:
+#
+#   $ bundle exec ruby examples/producer.rb
+#
 require_relative '../lib/songkick_queue'
 
 SongkickQueue.configure do |config|
