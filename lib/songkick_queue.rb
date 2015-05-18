@@ -25,10 +25,10 @@ module SongkickQueue
   #
   # @return [Configuration]
   def self.configuration
-    @configuration ||= Configuration.new(
-      logger: Logger.new(STDOUT),
-      port: 5672,
-    )
+    @configuration ||= Configuration.new.tap do |config|
+      config.logger = Logger.new(STDOUT)
+      config.port = 5672
+    end
   end
 
   # Yields a block, passing the memoized configuration instance
