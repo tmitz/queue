@@ -18,18 +18,22 @@ module SongkickQueue
     :username,
     :password,
     :vhost,
+    :max_reconnect_attempts,
+    :network_recovery_interval,
   )
 
-  ConfigurationError = Class.new(StandardError)
+  TooManyReconnectAttemptsError = Class.new(StandardError)
 
   # Retrieve configuration for SongkickQueue
   #
   # @return [Configuration]
   def self.configuration
-    @configuration ||= Configuration.new(
-      logger: Logger.new(STDOUT),
-      port: 5672,
-    )
+    @configuration ||= Configuration.new.tap do |config|
+      config.logger = Logger.new(STDOUT)
+      config.port = 5672
+      config.max_reconnect_attempts = 10
+      config.network_recovery_interval = 1.0
+    end
   end
 
   # Yields a block, passing the memoized configuration instance
