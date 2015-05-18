@@ -18,8 +18,11 @@ module SongkickQueue
     :username,
     :password,
     :vhost,
+    :max_reconnect_attempts,
+    :network_recovery_interval,
   )
 
+  TooManyReconnectAttemptsError = Class.new(StandardError)
 
   # Retrieve configuration for SongkickQueue
   #
@@ -28,6 +31,8 @@ module SongkickQueue
     @configuration ||= Configuration.new.tap do |config|
       config.logger = Logger.new(STDOUT)
       config.port = 5672
+      config.max_reconnect_attempts = 10
+      config.network_recovery_interval = 1.0
     end
   end
 
