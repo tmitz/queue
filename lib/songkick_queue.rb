@@ -20,7 +20,6 @@ module SongkickQueue
     :vhost,
   )
 
-  ConfigurationError = Class.new(StandardError)
 
   # Retrieve configuration for SongkickQueue
   #

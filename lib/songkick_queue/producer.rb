@@ -32,11 +32,8 @@ module SongkickQueue
 
     private
 
-    # Retrieve the logger defined in the configuration
-    #
-    # @raise [ConfigurationError] if not defined
     def logger
-      config.logger || fail(ConfigurationError, 'No logger configured, see README for more details')
+      config.logger
     end
 
     def config
