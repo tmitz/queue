@@ -40,6 +40,8 @@ SongkickQueue.configure do |config|
   config.username = 'guest'
   config.password = 'guest'
   config.vhost = '/'
+  config.max_reconnect_attempts = 10
+  config.network_recovery_interval = 1.0
 end
 ```
 
