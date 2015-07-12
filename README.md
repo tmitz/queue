@@ -125,6 +125,18 @@ consumer.
 SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', user_id: 57237722 })
 ```
 
+## Instrumentation
+
+Hooks are provided to instrument consuming of messages using [ActiveSupport's Notifications](http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html) API.
+
+You can subscribe to the `process_message.songkick_queue` event as follows:
+
+```ruby
+ActiveSupport::Notifications.subscribe('process_message.songkick_queue') do |name, start, finish, id, payload|
+  # Log info to statsd or something similar
+end
+```
+
 ## Tests
 
 See the current build status on Travis CI: https://travis-ci.org/songkick/queue

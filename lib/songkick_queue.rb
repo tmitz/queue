@@ -3,6 +3,7 @@ require 'securerandom'
 require 'logger'
 require 'bunny'
 require 'time'
+require 'active_support/notifications'
 
 require 'songkick_queue/version'
 require 'songkick_queue/client'

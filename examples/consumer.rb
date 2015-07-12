@@ -10,6 +10,10 @@ SongkickQueue.configure do |config|
   config.logger = Logger.new(STDOUT)
 end
 
+ActiveSupport::Notifications.subscribe('process_message.songkick_queue') do |name, start, finish, id, payload|
+  SongkickQueue.configuration.logger.info "name: #{name}, start: #{start}, finish: #{finish}, id: #{id}, payload: #{payload}"
+end
+
 class TweetConsumer
   include SongkickQueue::Consumer
 
