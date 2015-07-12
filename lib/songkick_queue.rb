@@ -2,6 +2,7 @@ require 'json'
 require 'securerandom'
 require 'logger'
 require 'bunny'
+require 'time'
 
 require 'songkick_queue/version'
 require 'songkick_queue/client'
