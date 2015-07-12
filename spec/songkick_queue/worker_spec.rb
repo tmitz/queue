@@ -66,36 +66,7 @@ module SongkickQueue
 
     describe "#process_message" do
       it "should instantiate the consumer and call #process" do
-        ::FooConsumer = Class.new
-        worker = Worker.new(:process_name, FooConsumer)
-
-        logger = double(:logger, info: :null)
-        allow(worker).to receive(:logger) { logger }
-
-        channel = double(:channel, ack: :null)
-        allow(worker).to receive(:channel) { channel }
-
-        delivery_info = double(:delivery_info, delivery_tag: 'tag')
-
-        consumer = double(FooConsumer, process: :null)
-
-        expect(FooConsumer).to receive(:new)
-          .with(delivery_info, logger) { consumer }
-
-        expect(consumer).to receive(:process)
-          .with({ example: 'message', value: true})
-
-        worker.send(:process_message, FooConsumer, delivery_info,
-          :properties, '{"example":"message","value":true}')
-
-        expect(logger).to have_received(:info)
-          .with('Processing message via FooConsumer...')
-
-        expect(channel).to have_received(:ack).with('tag', false)
-      end
-
-      it "should handle new message format with nested payload" do
-        ::BarConsumer = Class.new
+        ::BarConsumer = Struct.new(:delivery_info, :logger)
         worker = Worker.new(:process_name, BarConsumer)
 
         logger = double(:logger, info: :null)

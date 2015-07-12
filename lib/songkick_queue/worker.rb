@@ -82,10 +82,7 @@ module SongkickQueue
     # @param message [String] to deserialize
     def process_message(consumer_class, delivery_info, properties, message)
       message = JSON.parse(message, symbolize_names: true)
-
-      # Handle both old and new format of messages
-      # TODO: Tidy this up once messages always have a payload
-      payload = message.fetch(:payload, message)
+      payload = message.fetch(:payload)
 
       logger.info "Processing message via #{consumer_class}..."
       set_process_name(consumer_class)
