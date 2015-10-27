@@ -30,9 +30,16 @@ module SongkickQueue
 
       message = JSON.generate(message)
 
-      exchange = client
-        .default_exchange
-        .publish(message, routing_key: String(queue_name))
+      exchange = client.default_exchange
+
+      instrumentation_options = {
+        queue_name: String(queue_name),
+        message_id: message_id,
+        produced_at: produced_at,
+      }
+      ActiveSupport::Notifications.instrument('produce_message.songkick_queue', instrumentation_options) do
+        exchange.publish(message, routing_key: String(queue_name))
+      end
 
       self.reconnect_attempts = 0
 

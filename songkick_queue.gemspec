@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   # Used by yardoc for processing README.md code snippets
   spec.add_development_dependency "redcarpet"
 
-  spec.add_dependency "bunny", ">= 1.7.0"
+  spec.add_dependency "bunny", "~> 2.2"
+  spec.add_dependency "activesupport", ">= 3.0.0"
 end

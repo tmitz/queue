@@ -66,7 +66,11 @@ module SongkickQueue
 
     describe "#process_message" do
       it "should instantiate the consumer and call #process" do
-        ::BarConsumer = Struct.new(:delivery_info, :logger)
+        ::BarConsumer = Struct.new(:delivery_info, :logger) do
+          def self.queue_name
+            "bar-queue"
+          end
+        end
         worker = Worker.new(:process_name, BarConsumer)
 
         logger = double(:logger, info: :null)
@@ -90,7 +94,7 @@ module SongkickQueue
           '"payload":{"example":"message","value":true}}')
 
         expect(logger).to have_received(:info)
-          .with('Processing message via BarConsumer...')
+          .with('Processing message 92c583bdc248 via BarConsumer, produced at 2015-03-30T15:41:55Z')
 
         expect(channel).to have_received(:ack).with('tag', false)
       end
