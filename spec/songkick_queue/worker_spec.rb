@@ -66,7 +66,11 @@ module SongkickQueue
 
     describe "#process_message" do
       it "should instantiate the consumer and call #process" do
-        ::BarConsumer = Struct.new(:delivery_info, :logger)
+        ::BarConsumer = Struct.new(:delivery_info, :logger) do
+          def self.queue_name
+            "bar-queue"
+          end
+        end
         worker = Worker.new(:process_name, BarConsumer)
 
         logger = double(:logger, info: :null)
