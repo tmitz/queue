@@ -71,8 +71,6 @@ class TweetConsumer
     TwitterClient.send_tweet(message[:text], message[:user_id])
   rescue TwitterClient::HttpError => e
     logger.warn(e)
-  rescue StandardError => e
-    logger.error(e)
   end
 end
 ```
@@ -127,12 +125,21 @@ SongkickQueue.publish('notifications-service.tweets', { text: 'Hello world', use
 
 ## Instrumentation
 
-Hooks are provided to instrument consuming of messages using [ActiveSupport's Notifications](http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html) API.
+Hooks are provided to instrument producing and consuming of messages using [ActiveSupport's Notifications](http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html) API.
 
-You can subscribe to the `process_message.songkick_queue` event as follows:
+You can subscribe to the following events:
+
+```
+consume_message.songkick_queue
+produce_message.songkick_queue
+```
+
+For both events, the payload includes the message id, produced at timestamp and queue name. The `consume_message` event also includes the consumer class.
+
+For example:
 
 ```ruby
-ActiveSupport::Notifications.subscribe('process_message.songkick_queue') do |name, start, finish, id, payload|
+ActiveSupport::Notifications.subscribe('consume_message.songkick_queue') do |name, start, finish, id, payload|
   # Log info to statsd or something similar
 end
 ```
