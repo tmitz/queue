@@ -67,15 +67,8 @@ module SongkickQueue
       queue = channel.queue(consumer_class.queue_name, durable: true,
         arguments: { 'x-ha-policy' => 'all' })
 
-      instrumentation_options = {
-        consumer_class: consumer_class.to_s,
-        queue_name: consumer_class.queue_name,
-      }
-
       queue.subscribe(manual_ack: true) do |delivery_info, properties, message|
-        ActiveSupport::Notifications.instrument('process_message.songkick_queue', instrumentation_options) do
-          process_message(consumer_class, delivery_info, properties, message)
-        end
+        process_message(consumer_class, delivery_info, properties, message)
       end
 
       logger.info "Subscribed #{consumer_class} to #{consumer_class.queue_name}"
@@ -98,7 +91,16 @@ module SongkickQueue
       set_process_name(consumer_class, message_id)
 
       consumer = consumer_class.new(delivery_info, logger)
-      consumer.process(payload)
+
+      instrumentation_options = {
+        consumer_class: consumer_class.to_s,
+        queue_name: consumer_class.queue_name,
+        message_id: message_id,
+        produced_at: produced_at,
+      }
+      ActiveSupport::Notifications.instrument('consume_message.songkick_queue', instrumentation_options) do
+        consumer.process(payload)
+      end
     rescue Object => exception
       logger.error(exception)
     ensure
