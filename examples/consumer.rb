@@ -10,8 +10,9 @@ SongkickQueue.configure do |config|
   config.logger = Logger.new(STDOUT)
 end
 
-ActiveSupport::Notifications.subscribe('process_message.songkick_queue') do |name, start, finish, id, payload|
-  SongkickQueue.configuration.logger.info "name: #{name}, start: #{start}, finish: #{finish}, id: #{id}, payload: #{payload}"
+ActiveSupport::Notifications.subscribe('process_message.songkick_queue') do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  SongkickQueue.configuration.logger.info "name: #{event.name}, duration: #{event.duration}, payload: #{event.payload}"
 end
 
 class TweetConsumer
