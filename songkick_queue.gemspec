@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "redcarpet"
 
   spec.add_dependency "bunny", "~> 2.2"
+  spec.add_dependency "activesupport", ">= 3.0.0"
 end

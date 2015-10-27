@@ -10,6 +10,11 @@ SongkickQueue.configure do |config|
   config.logger = Logger.new(STDOUT)
 end
 
+ActiveSupport::Notifications.subscribe('consume_message.songkick_queue') do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  SongkickQueue.configuration.logger.info "name: #{event.name}, duration: #{event.duration}, payload: #{event.payload}"
+end
+
 class TweetConsumer
   include SongkickQueue::Consumer
 
