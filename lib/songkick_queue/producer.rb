@@ -34,6 +34,8 @@ module SongkickQueue
         .default_exchange
         .publish(message, routing_key: String(queue_name))
 
+      self.reconnect_attempts = 0
+
       logger.info "Published message #{message_id} to '#{queue_name}' at #{produced_at}"
 
       exchange
