@@ -90,7 +90,7 @@ module SongkickQueue
           '"payload":{"example":"message","value":true}}')
 
         expect(logger).to have_received(:info)
-          .with('Processing message via BarConsumer...')
+          .with('Processing message 92c583bdc248 via BarConsumer, produced at 2015-03-30T15:41:55Z')
 
         expect(channel).to have_received(:ack).with('tag', false)
       end
