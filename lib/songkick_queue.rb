@@ -22,6 +22,7 @@ module SongkickQueue
     :vhost,
     :max_reconnect_attempts,
     :network_recovery_interval,
+    :requeue_rejected_messages,
   )
 
   TooManyReconnectAttemptsError = Class.new(StandardError)
@@ -35,6 +36,7 @@ module SongkickQueue
       config.port = 5672
       config.max_reconnect_attempts = 10
       config.network_recovery_interval = 1.0
+      config.requeue_rejected_messages = false
     end
   end
 

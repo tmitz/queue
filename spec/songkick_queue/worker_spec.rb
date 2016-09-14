@@ -65,24 +65,26 @@ module SongkickQueue
     end
 
     describe "#process_message" do
-      it "should instantiate the consumer and call #process" do
+      let(:worker) { Worker.new(:process_name, BarConsumer) }
+      let(:logger) { double(:logger, info: :null) }
+      let(:channel) { double(:channel, ack: :null, reject: :null) }
+      let(:delivery_info) { double(:delivery_info, delivery_tag: 'tag') }
+      let(:consumer) { double(BarConsumer, process: :null) }
+      let(:config) { double(:config, requeue_rejected_messages: true) }
+
+      before do
         ::BarConsumer = Struct.new(:delivery_info, :logger) do
           def self.queue_name
             "bar-queue"
           end
         end
-        worker = Worker.new(:process_name, BarConsumer)
 
-        logger = double(:logger, info: :null)
         allow(worker).to receive(:logger) { logger }
-
-        channel = double(:channel, ack: :null)
         allow(worker).to receive(:channel) { channel }
+        allow(worker).to receive(:config) { config }
+      end
 
-        delivery_info = double(:delivery_info, delivery_tag: 'tag')
-
-        consumer = double(BarConsumer, process: :null)
-
+      it "should instantiate the consumer and call #process" do
         expect(BarConsumer).to receive(:new)
           .with(delivery_info, logger) { consumer }
 
@@ -95,8 +97,31 @@ module SongkickQueue
 
         expect(logger).to have_received(:info)
           .with('Processing message 92c583bdc248 via BarConsumer, produced at 2015-03-30T15:41:55Z')
+      end
+
+      it "should acknowedge the message if it is successful" do
+        expect(BarConsumer).to receive(:new)
+          .with(delivery_info, logger) { consumer }
+
+        worker.send(:process_message, BarConsumer, delivery_info, :properties,
+          '{"message_id":"92c583bdc248","produced_at":"2015-03-30T15:41:55Z",' +
+          '"payload":{"example":"message","value":true}}')
 
         expect(channel).to have_received(:ack).with('tag', false)
+      end
+
+      it "should reject and re-queue the message if it is not successful" do
+        expect(BarConsumer).to receive(:new)
+          .with(delivery_info, logger) { consumer }
+
+        allow(consumer).to receive(:process) { raise RuntimeError, "test error" }
+        expect(logger).to receive(:error).with(instance_of(RuntimeError))
+
+        worker.send(:process_message, BarConsumer, delivery_info, :properties,
+          '{"message_id":"92c583bdc248","produced_at":"2015-03-30T15:41:55Z",' +
+          '"payload":{"example":"message","value":true}}')
+
+        expect(channel).to have_received(:reject).with('tag', true)
       end
     end
   end

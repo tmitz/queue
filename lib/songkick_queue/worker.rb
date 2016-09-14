@@ -103,9 +103,11 @@ module SongkickQueue
       end
     rescue Object => exception
       logger.error(exception)
+      channel.reject(delivery_info.delivery_tag, config.requeue_rejected_messages)
+    else
+      channel.ack(delivery_info.delivery_tag, false)
     ensure
       set_process_name
-      channel.ack(delivery_info.delivery_tag, false)
     end
 
     def channel
