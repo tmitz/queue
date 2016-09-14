@@ -42,6 +42,7 @@ SongkickQueue.configure do |config|
   config.vhost = '/'
   config.max_reconnect_attempts = 10
   config.network_recovery_interval = 1.0
+  config.requeue_rejected_messages = false
 end
 ```
 
@@ -170,7 +171,7 @@ $ open http://localhost:8808/
 
 ## TODO
 
-* Requeue and reject from within consumers 
+* Requeue and reject from within consumers
 
 ## Contributing
 
