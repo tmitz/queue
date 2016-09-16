@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0
+### Added
+- Configuration option: `requeue_rejected_messages`
+
+### Changed
+- Changed default consumer behaviour for errors; we now reject on failure and re-queue according to new config option `requeue_rejected_messages` (defaults to false)
+
 ## 0.6.0
 ### Added
 - Instrumentation (for tracking metrics using statsd or other tools)
